@@ -48,7 +48,7 @@ def train(net, dataset_trn, optimizer, criterion, epoch, opt):
                 % (epoch+1, opt.max_epoch, it+1, len(dataset_trn), losses.avg, total_dices.avg))
 
     print(">>> Epoch[%3d/%3d] | Training Loss : %.4f | Dice %.4f\n"
-        % (epoch+1, opt.max_epoch, losses.avg, otal_dices.avg))
+        % (epoch+1, opt.max_epoch, losses.avg, total_dices.avg))
 
 
 def validate(dataset_val, net, criterion, epoch, opt, best_dice, best_epoch):
