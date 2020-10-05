@@ -37,7 +37,7 @@ def train(net, dataset_trn, optimizer, criterion, epoch, opt):
         optimizer.step()
 
         # Calculation Dice Coef Score
-        dice = DiceCoef(return_score_per_channel=False)(pred, mask)
+        dice = DiceCoef(return_score_per_channel=False)(pred.sigmoid(), mask)
         total_dices.update(dice.item(), img.size(0))
 
         # Stack Results
@@ -71,7 +71,7 @@ def validate(dataset_val, net, criterion, epoch, opt, best_dice, best_epoch):
         loss = criterion(pred, mask)
 
         # Calculation Dice Coef Score
-        dice = DiceCoef(return_score_per_channel=False)(pred, mask)
+        dice = DiceCoef(return_score_per_channel=False)(pred.sigmoid(), mask)
         total_dices.update(dice.item(), img.size(0))
 
         # Stack Results
@@ -79,7 +79,7 @@ def validate(dataset_val, net, criterion, epoch, opt, best_dice, best_epoch):
 
         if (it==0) or (it+1) % 10 == 0:
             print('Epoch[%3d/%3d] | Iter[%3d/%3d] | Loss %.4f | Dice %.4f'
-                % (epoch+1, opt.max_epoch, it+1, len(dataset_trn), losses.avg, total_dices.avg))
+                % (epoch+1, opt.max_epoch, it+1, len(dataset_val), losses.avg, total_dices.avg))
 
     print(">>> Epoch[%3d/%3d] | Test Loss : %.4f | Dice %.4f"
         % (epoch+1, opt.max_epoch, losses.avg, total_dices.avg))
