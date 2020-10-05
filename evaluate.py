@@ -34,4 +34,5 @@ if __name__ == "__main__":
     net = create_model(opt)
 
     # Evaluate
-    evaluate(dataset_val, net, opt)
+    save_dir = "./ckpt_beta_100_300"
+    evaluate(dataset_val, net, opt, save_dir)

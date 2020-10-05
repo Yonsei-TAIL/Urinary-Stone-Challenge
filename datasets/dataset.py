@@ -10,10 +10,11 @@ import SimpleITK as sitk
 from utils.transforms import image_windowing, image_minmax, mask_binarization, augment_imgs_and_masks
 
 class UrinaryStoneDataset(Dataset):
-    def __init__(self, opt, is_Train=True, augmentation=False):
+    def __init__(self, opt, is_Train=True, augmentation=True):
         super(UrinaryStoneDataset, self).__init__()
 
-        self.dcm_list = glob(os.path.join(opt.data_root, 'Train' if is_Train else 'Valid', 'DCM', '*.dcm'))
+        self.dcm_list = sorted(glob(os.path.join(opt.data_root, 'Train' if is_Train else 'Valid', 'DCM', '*.dcm')))
+        
         self.len = len(self.dcm_list)
 
         self.augmentation = augmentation

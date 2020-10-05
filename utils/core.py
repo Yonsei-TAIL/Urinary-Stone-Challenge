@@ -10,6 +10,10 @@ from torch.autograd import Variable
 
 from utils import AverageMeter
 from utils.metrics import DiceCoef
+from utils.losses import iou
+
+from matplotlib import pyplot as plt 
+
 
 def train(net, dataset_trn, optimizer, criterion, epoch, opt):
     print("Start Training...")
@@ -108,11 +112,13 @@ def validate(dataset_val, net, criterion, epoch, opt, best_dice, best_epoch):
     return best_dice, best_epoch
 
 
-def evaluate(dataset_val, net, opt):
+def evaluate(dataset_val, net, opt, save_dir):
     print("Start Evaluation...")
     net.eval()
 
-    for img, mask in tqdm(dataset_val):
+    for idx, (img, mask) in enumerate(dataset_val):
+        if idx%10 ==0:
+            print("{}/{}".format(idx+1, len(dataset_val))) 
         # Load Data
         img = torch.Tensor(img).float()
         if opt.use_gpu:
@@ -121,5 +127,48 @@ def evaluate(dataset_val, net, opt):
         # Predict
         with torch.no_grad():
             pred = net(img)
+	
+            y = pred.sigmoid()
+            dice = DiceCoef(return_score_per_channel=False)(y, mask.cuda())
+        
+            # Save original, image, label 
+            # Convert to Binary
+            zeros = torch.zeros(y.size())
+            ones = torch.ones(y.size())
+            y = y.cpu()
 
-        raise NotImplementedError
+            y = torch.where(y > opt.threshold, ones, zeros) # threshold 0.99
+            y = Variable(y).cuda()
+
+            # iou_score = iou(y[0,0,:,:], mask[0,0,:,:].cuda())
+            # print(iou_score)
+            # print(iou_score.shape)
+
+            ###### Plot & Save Figure #########
+            origin = img.cpu().numpy()[0,0,:,:] 
+            pred = y.cpu().numpy()[0,0,:,:]
+            true = mask.cpu().numpy()[0,0,:,:]	
+
+            fig = plt.figure()
+
+            ax1 = fig.add_subplot(1,3,1)
+            ax1.axis("off")
+            ax1.imshow(origin, cmap = "gray")
+
+            ax2= fig.add_subplot(1,3,2)
+            ax2.axis("off")
+            ax2.imshow(true, cmap = "gray")
+
+            ax3 = fig.add_subplot(1,3,3)
+            ax3.axis("off")
+            ax3.imshow(origin,cmap = "gray")
+            ax3.contour(pred, cmap='Reds', linewidths=0.5)
+
+            plt.axis('off')
+            plt.subplots_adjust(left = 0, bottom = 0, right = 1, top = 1, hspace = 0, wspace = 0)
+
+            plt.savefig(opt.save_dir + "/original_label_pred_image_file_{}_dice_{}.png".format(idx, dice.item()),bbox_inces='tight', dpi=300)
+            plt.cla()
+            plt.close(fig)
+            plt.gray()
+            ###############################
