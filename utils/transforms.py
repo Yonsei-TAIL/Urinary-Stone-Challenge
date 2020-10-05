@@ -3,7 +3,7 @@ import numpy as np
 from random import uniform
 from imgaug import augmenters as iaa
 
-def image_windowing(img, w_min=-50, w_max=350):
+def image_windowing(img, w_min=0, w_max=300):
     img_w = img.copy()
 
     img_w[img_w < w_min] = w_min
@@ -22,7 +22,7 @@ def mask_binarization(mask_array):
     mask_binarized = (mask_array > threshold).astype(np.uint8)
     
     return mask_binarized
-    
+
 def augment_imgs_and_masks(imgs, masks, rot_factor, scale_factor, trans_factor, flip):
     rot_factor = uniform(-rot_factor, rot_factor)
     scale_factor = uniform(1-scale_factor, 1+scale_factor)
