@@ -3,3 +3,6 @@ DataSet
 __pycache__
 .ipynb_checkpoints
 exp
+ckpt
+save_dir
+
