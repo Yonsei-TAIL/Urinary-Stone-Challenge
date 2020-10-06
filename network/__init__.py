@@ -13,8 +13,8 @@ def create_model(opt):
             net = torch.nn.DataParallel(net)
     
     if opt.resume:
-        if os.path.isfile(opt.resume):
-            pretrained_dict = torch.load(opt.resume, map_location=torch.device('cpu'))
+        if os.path.isfile(opt.exp + "/" + opt.resume):
+            pretrained_dict = torch.load(opt.exp + "/" + opt.resume, map_location=torch.device('cpu'))
             model_dict = net.state_dict()
 
             match_cnt = 0

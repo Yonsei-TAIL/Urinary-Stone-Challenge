@@ -187,17 +187,17 @@ def evaluate(dataset_val, net, opt, save_dir):
                 ax2= fig.add_subplot(1,3,2)
                 ax2.axis("off")
                 ax2.imshow(origin,cmap = "gray")
-                ax2.contour(true, cmap='Greens', linewidths=0.1)
+                ax2.contour(true, cmap='Greens', linewidths=0.3)
 
                 ax3 = fig.add_subplot(1,3,3)
                 ax3.axis("off")
                 ax3.imshow(origin,cmap = "gray")
-                ax3.contour(pred, cmap='Reds', linewidths=0.5)
+                ax3.contour(pred, cmap='Reds', linewidths=0.3)
 
                 plt.axis('off')
                 plt.subplots_adjust(left = 0, bottom = 0, right = 1, top = 1, hspace = 0, wspace = 0)
 
-                plt.savefig(opt.save_dir + "/original_label_pred_image_file_{}_dice_{}_iou_{}.png".format(idx, dice.item(),iou_score.item()),bbox_inces='tight', dpi=300)
+                plt.savefig(opt.exp + "/" + opt.save_dir + "/original_label_pred_image_file_{}_dice_{:.4f}_iou_{:.4f}.png".format(idx, dice.item(),iou_score.item()),bbox_inces='tight', dpi=300)
                 plt.cla()
                 plt.close(fig)
                 plt.gray()
@@ -205,4 +205,4 @@ def evaluate(dataset_val, net, opt, save_dir):
 
     prec_thresh1, prec_thresh2, iou_mean = avg_precision(iou_scores)
 
-    print("Average Presion with threshold 0.5 {}, 0.75 {}, Mean {}".format(prec_thresh1, prec_thresh2, iou_mean))
+    print("Presion with threshold 0.5: {}, 0.75: {}, Average: {}".format(prec_thresh1, prec_thresh2, iou_mean))

@@ -53,7 +53,7 @@ def parse_option(print_option=True):
     p.add_argument('--iou_smooth', default=1e-6, type=float, help='avoid 0/0')
 
     # Resume trained network
-    p.add_argument('--resume', default='', type=str, help="pth file path to resume")
+    p.add_argument('--resume', default='epoch_0145_iou0.7389_loss0.17547968.pth', type=str, help="pth file path to resume")
 
     # Resource option
     p.add_argument('--workers', default=10, type=int, help='#data-loading worker-processes')
@@ -62,7 +62,7 @@ def parse_option(print_option=True):
 
     # Output directory
     p.add_argument('--exp', default='./ckpt_crop', type=str, help='checkpoint dir.')
-    p.add_argument('--save_dir', default='./result', type=str, help='evaluation plot directory')
+    p.add_argument('--save_dir', default='./plots', type=str, help='evaluation plot directory')
 
 
     opt = p.parse_args()
