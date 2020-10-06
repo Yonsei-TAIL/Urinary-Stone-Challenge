@@ -36,8 +36,8 @@ DataSet
 │    │    │   ...
 │    │    │
 └─── Valid
-     └─── DCM
-     └─── Label
+|    └─── DCM
+|    └─── Label
 └─── Test
      └─── DCM
      
