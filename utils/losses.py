@@ -200,6 +200,7 @@ def iou_binary(preds, labels, EMPTY=1., ignore=None, per_image=True):
     iou = mean(ious)    # mean accross images if per_image
     return 100 * iou
 
+
 def iou_modified(preds, labels, opt):
     
     SMOOTH = opt.iou_smooth
@@ -216,6 +217,27 @@ def iou_modified(preds, labels, opt):
     # thresholded = torch.clamp(20 * (iou - 0.5), 0, 10).ceil() / 10
 
     return iou.squeeze(0)
+
+
+def avg_precision(iou_list):
+    
+    thresh1 = 0.5 
+    thresh2 =0.75
+
+    # thresh 0.5
+    iou_list = np.array(iou_list)
+    iou_list_thresh1= np.where(iou_list > thresh1, 1, 0)
+    
+    # thresh 0.75
+    iou_list_thresh2 = np.where(iou_list > thresh2, 1, 0)
+    
+    prec_thresh1 = np.sum(iou_list_thresh1) / len(iou_list_thresh1)
+    prec_thresh2 = np.sum(iou_list_thresh2) / len(iou_list_thresh2)
+    
+    iou_mean = (prec_thresh1 + prec_thresh2) / 2.
+    
+    return prec_thresh1, prec_thresh2, iou_mean
+
 
 def iou(preds, labels, C=1, EMPTY=1., ignore=None, per_image=False):
     """

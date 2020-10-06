@@ -25,7 +25,7 @@ def parse_option(print_option=True):
     p.add_argument('--trans_factor', default=0.1, type=float)
 
     # Input image
-    p.add_argument('--crop_size', default=300., type=float, help='Center crop width')
+    p.add_argument('--crop_size', default=300, type=float, help='Center crop width')
     p.add_argument('--input_size', default=224, type=int, help='input resolution using resize process')
     p.add_argument('--w_min', default=-100., type=float, help='Min value of HU Windowing')
     p.add_argument('--w_max', default=300., type=float, help='Max value of HU Windowing')
@@ -36,16 +36,16 @@ def parse_option(print_option=True):
     # Optimizer
     p.add_argument('--optim', default='Adam', type=str, help='RMSprop | SGD | Adam')
     p.add_argument('--lr', default=2e-5, type=float)
-    p.add_argument('--lr_decay_epoch', default='39', type=str, help="decay epochs with comma (ex - '20,40,60')")
-    p.add_argument('--lr_warmup_epoch', default=3, type=int)
+    p.add_argument('--lr_decay_epoch', default='149', type=str, help="decay epochs with comma (ex - '20,40,60')")
+    p.add_argument('--lr_warmup_epoch', default=0, type=int)
     p.add_argument('--momentum', default=0.99, type=float, help='momentum')
     p.add_argument('--wd', default=1e-4, type=float, help='weight decay')
     p.add_argument('--no_bias_decay', default='True', type=str2bool, help='weight decay for bias')
 
     # Hyper-parameter
-    p.add_argument('--batch_size', default=1, type=int, help='use 1 batch size in 3D training.')
+    p.add_argument('--batch_size', default=16, type=int, help='use 1 batch size in 3D training.')
     p.add_argument('--start_epoch', default=0, type=int)
-    p.add_argument('--max_epoch', default=40, type=int)
+    p.add_argument('--max_epoch', default=150, type=int)
     p.add_argument('--threshold', default=0.9, type=float)
 
     # Loss function
@@ -53,7 +53,7 @@ def parse_option(print_option=True):
     p.add_argument('--iou_smooth', default=1e-6, type=float, help='avoid 0/0')
 
     # Resume trained network
-    p.add_argument('--resume', default='./ckpt_beta_100_300/epoch_0039_dice0.8143_loss0.18567056.pth', type=str, help="pth file path to resume")
+    p.add_argument('--resume', default='', type=str, help="pth file path to resume")
 
     # Resource option
     p.add_argument('--workers', default=10, type=int, help='#data-loading worker-processes')
@@ -61,7 +61,7 @@ def parse_option(print_option=True):
     p.add_argument('--gpu_id', default="0", type=str)
 
     # Output directory
-    p.add_argument('--exp', default='./ckpt_beta_100_300', type=str, help='checkpoint dir.')
+    p.add_argument('--exp', default='./ckpt_crop', type=str, help='checkpoint dir.')
     p.add_argument('--save_dir', default='./result', type=str, help='evaluation plot directory')
 
 

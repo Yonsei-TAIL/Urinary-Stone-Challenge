@@ -7,7 +7,7 @@ import numpy as np
 from glob import glob
 import SimpleITK as sitk
 
-from utils.transforms import image_windowing, image_minmax, mask_binarization, augment_imgs_and_masks
+from utils.transforms import image_windowing, image_minmax, mask_binarization, augment_imgs_and_masks, center_crop
 
 class UrinaryStoneDataset(Dataset):
     def __init__(self, opt, is_Train=True, augmentation=True):
@@ -34,7 +34,8 @@ class UrinaryStoneDataset(Dataset):
         # HU Windowing
         img = image_windowing(img, self.opt.w_min, self.opt.w_max)
 
-        # MINMAX to [0, 255] and Resize
+        # Center Crop and MINMAX to [0, 255] and Resize
+        #img = center_crop(img, self.opt.crop_size)
         img = image_minmax(img)
         img = cv2.resize(img, (self.opt.input_size, self.opt.input_size))
         mask = cv2.resize(mask, (self.opt.input_size, self.opt.input_size))

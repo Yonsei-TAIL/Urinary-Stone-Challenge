@@ -54,3 +54,15 @@ def mask_binarization(mask_array):
     mask_binarized = (mask_array > threshold).astype(np.uint8)
     
     return mask_binarized
+
+
+def center_crop(img, width):
+    y, x = img.shape
+    x_center = x/2.0
+    y_center = y/2.0
+    x_min = int(x_center - width/2.0)
+    x_max = x_min + width
+    y_min = int(y_center - width/2.0)
+    y_max = y_min + width
+    img_cropped = img[y_min:y_max, x_min: x_max]
+    return img_cropped
