@@ -31,11 +31,12 @@ def train(net, dataset_trn, optimizer, criterion, epoch, opt):
             img, mask = img.cuda(non_blocking=True), mask.cuda(non_blocking=True)
 
         # Predict
-        pred = net(img).sigmoid()
+        pred = net(img)
 
         # Loss Calculation
         loss = criterion(pred, mask)
 
+        pred = pred.sigmoid()
         # Backward and step
         loss.backward()
         optimizer.step()
@@ -81,10 +82,12 @@ def validate(dataset_val, net, criterion, epoch, opt, best_iou, best_epoch):
             img, mask = img.cuda(non_blocking=True), mask.cuda(non_blocking=True)
 
         # Predict
-        pred = net(img).sigmoid()
+        pred = net(img)
 
         # Loss Calculation
         loss = criterion(pred, mask)
+
+        pred = pred.sigmoid()
 
         # Calculation Dice Coef Score
         dice = DiceCoef(return_score_per_channel=False)(pred, mask)
