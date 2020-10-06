@@ -15,6 +15,8 @@ from utils import get_optimizer, get_loss_function, lr_update
 from utils.core import train, validate
 from datasets import get_dataloader
 import warnings
+
+from tensorboardX import SummaryWriter
 warnings.filterwarnings('ignore')
 
 
@@ -41,15 +43,18 @@ if __name__ == "__main__":
     # Optimizer
     optimizer = get_optimizer(net, opt)
 
+    # Tensorboard
+    train_writer = SummaryWriter(opt.exp+'/logs/')
+
     # Initial Best Score
     best_iou, best_epoch = [0, 0]
 
     for epoch in range(opt.start_epoch, opt.max_epoch):
         # Train
-        train(net, dataset_trn, optimizer, criterion, epoch, opt)
+        train(net, dataset_trn, optimizer, criterion, epoch, opt,train_writer)
 
         # Evaluate
-        best_iou, best_epoch = validate(dataset_val, net, criterion, epoch, opt, best_iou, best_epoch)
+        best_iou, best_epoch = validate(dataset_val, net, criterion, epoch, opt, best_iou, best_epoch,train_writer)
 
         lr_update(epoch, opt, optimizer)
 

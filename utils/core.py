@@ -15,7 +15,7 @@ from utils.losses import iou_modified, avg_precision
 from matplotlib import pyplot as plt 
 
 
-def train(net, dataset_trn, optimizer, criterion, epoch, opt):
+def train(net, dataset_trn, optimizer, criterion, epoch, opt,train_writer):
     print("Start Training...")
     net.train()
 
@@ -67,8 +67,12 @@ def train(net, dataset_trn, optimizer, criterion, epoch, opt):
     print(">>> Epoch[%3d/%3d] | Training Loss : %.4f | Dice %.4f | Iou %.4f\n "
         % (epoch+1, opt.max_epoch, losses.avg, total_dices.avg, total_iou.avg))
 
+    train_writer.add_scalar("train/loss", losses.avg, epoch+1)
+    train_writer.add_scalar("train/dice", total_dices.avg, epoch+1)
+    train_writer.add_scalar("train/IoU", total_iou.avg, epoch+1)
 
-def validate(dataset_val, net, criterion, epoch, opt, best_iou, best_epoch):
+
+def validate(dataset_val, net, criterion, epoch, opt, best_iou, best_epoch,train_writer):
     print("Start Evaluation...")
     net.eval()
 
@@ -114,6 +118,10 @@ def validate(dataset_val, net, criterion, epoch, opt, best_iou, best_epoch):
 
     print(">>> Epoch[%3d/%3d] | Test Loss : %.4f | Dice %.4f | Iou %.4f"
         % (epoch+1, opt.max_epoch, losses.avg, total_dices.avg, total_iou.avg))
+
+    train_writer.add_scalar("valid/loss", losses.avg, epoch+1)
+    train_writer.add_scalar("valid/dice", total_dices.avg, epoch+1)
+    train_writer.add_scalar("valid/IoU", total_iou.avg, epoch+1)
 
     # Update Result
     if total_iou.avg > best_iou:
