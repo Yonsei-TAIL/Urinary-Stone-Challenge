@@ -10,7 +10,7 @@ from torch.autograd import Variable
 
 from utils import AverageMeter
 from utils.metrics import DiceCoef
-from utils.losses import iou
+from utils.losses import iou_modified
 
 from matplotlib import pyplot as plt 
 
@@ -130,7 +130,6 @@ def evaluate(dataset_val, net, opt, save_dir):
 	
             y = pred.sigmoid()
             dice = DiceCoef(return_score_per_channel=False)(y, mask.cuda())
-        
             # Save original, image, label 
             # Convert to Binary
             zeros = torch.zeros(y.size())
@@ -140,9 +139,9 @@ def evaluate(dataset_val, net, opt, save_dir):
             y = torch.where(y > opt.threshold, ones, zeros) # threshold 0.99
             y = Variable(y).cuda()
 
-            # iou_score = iou(y[0,0,:,:], mask[0,0,:,:].cuda())
-            # print(iou_score)
-            # print(iou_score.shape)
+            iou_score = iou_modified(y, mask.cuda(),opt)
+            print(iou_score)
+            print(iou_score.shape)
 
             ###### Plot & Save Figure #########
             origin = img.cpu().numpy()[0,0,:,:] 

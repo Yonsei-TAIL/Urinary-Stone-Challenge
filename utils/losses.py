@@ -200,12 +200,28 @@ def iou_binary(preds, labels, EMPTY=1., ignore=None, per_image=True):
     iou = mean(ious)    # mean accross images if per_image
     return 100 * iou
 
+def iou_modified(preds, labels, opt):
+    
+    SMOOTH = opt.iou_smooth
+
+    preds = preds.squeeze(1).int()
+    labels = labels.squeeze(1).int()
+
+    intersection = (preds & labels).float().sum((1, 2)) # zero if mask=0 or Prediction=0
+    union = (preds | labels).float().sum((1, 2)) # zero if both are 0
+
+    iou = (intersection + SMOOTH) / (union + SMOOTH)
+
+    # set Threshold
+    # thresholded = torch.clamp(20 * (iou - 0.5), 0, 10).ceil() / 10
+
+    return iou.squeeze(0)
 
 def iou(preds, labels, C=1, EMPTY=1., ignore=None, per_image=False):
     """
     Array of IoU for each (non ignored) class
-    """
-    
+    """  
+
     if not per_image:
         preds, labels = (preds,), (labels,)
     ious = []

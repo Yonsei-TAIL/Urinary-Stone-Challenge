@@ -50,6 +50,7 @@ def parse_option(print_option=True):
 
     # Loss function
     p.add_argument('--loss', default='dice', type=str)
+    p.add_argument('--iou_smooth', default=1e-6, type=float, help='avoid 0/0')
 
     # Resume trained network
     p.add_argument('--resume', default='./ckpt_beta_100_300/epoch_0039_dice0.8143_loss0.18567056.pth', type=str, help="pth file path to resume")
