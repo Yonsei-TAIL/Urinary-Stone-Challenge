@@ -5,4 +5,6 @@ __pycache__
 exp
 ckpt
 save_dir
+ckpt_crop_350_small_lr
+ckpt_crop_400_small_lr
 ckpt_crop

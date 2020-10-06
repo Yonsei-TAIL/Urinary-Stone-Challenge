@@ -125,7 +125,7 @@ def validate(dataset_val, net, criterion, epoch, opt, best_iou, best_epoch):
         # for path in glob('%s/*.pth' % opt.exp):
         #     os.remove(path)
 
-        model_filename = '%s/epoch_%04d_iou%.4f_loss%.8f.pth' % (opt.exp, epoch+1, best_iou, losses.avg)
+        model_filename = '%s/epoch_%04d_iou_%.4f_loss_%.8f.pth' % (opt.exp, epoch+1, best_iou, losses.avg)
 
         # Single GPU
         if opt.ngpu == 1:
@@ -168,7 +168,7 @@ def evaluate(dataset_val, net, opt, save_dir):
             iou_score = iou_modified(y, mask.cuda(),opt)
 
             if idx%10 ==0:
-                print("{}/{} - dice {} | IoU {}".format(idx+1, len(dataset_val), dice.item(), iou_score.item()))
+                print("{}/{} - dice {:.4f} | IoU {:.4f}".format(idx+1, len(dataset_val), dice.item(), iou_score.item()))
 
             iou_scores.append(iou_score.item())
 

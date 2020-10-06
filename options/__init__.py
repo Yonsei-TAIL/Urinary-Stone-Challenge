@@ -36,7 +36,7 @@ def parse_option(print_option=True):
     # Optimizer
     p.add_argument('--optim', default='Adam', type=str, help='RMSprop | SGD | Adam')
     p.add_argument('--lr', default=2e-5, type=float)
-    p.add_argument('--lr_decay_epoch', default='149', type=str, help="decay epochs with comma (ex - '20,40,60')")
+    p.add_argument('--lr_decay_epoch', default='150', type=str, help="decay epochs with comma (ex - '20,40,60')")
     p.add_argument('--lr_warmup_epoch', default=0, type=int)
     p.add_argument('--momentum', default=0.99, type=float, help='momentum')
     p.add_argument('--wd', default=1e-4, type=float, help='weight decay')
@@ -45,7 +45,7 @@ def parse_option(print_option=True):
     # Hyper-parameter
     p.add_argument('--batch_size', default=16, type=int, help='use 1 batch size in 3D training.')
     p.add_argument('--start_epoch', default=0, type=int)
-    p.add_argument('--max_epoch', default=150, type=int)
+    p.add_argument('--max_epoch', default=300, type=int)
     p.add_argument('--threshold', default=0.9, type=float)
 
     # Loss function
@@ -53,16 +53,16 @@ def parse_option(print_option=True):
     p.add_argument('--iou_smooth', default=1e-6, type=float, help='avoid 0/0')
 
     # Resume trained network
-    p.add_argument('--resume', default='epoch_0145_iou0.7389_loss0.17547968.pth', type=str, help="pth file path to resume")
+    p.add_argument('--resume', default='', type=str, help="pth file path to resume")
 
     # Resource option
     p.add_argument('--workers', default=10, type=int, help='#data-loading worker-processes')
     p.add_argument('--use_gpu', default="True", type=str2bool, help='use gpu or not (cpu only)')
-    p.add_argument('--gpu_id', default="0", type=str)
+    p.add_argument('--gpu_id', default="3", type=str)
 
     # Output directory
-    p.add_argument('--exp', default='./ckpt_crop', type=str, help='checkpoint dir.')
-    p.add_argument('--save_dir', default='./plots', type=str, help='evaluation plot directory')
+    p.add_argument('--exp', default='./ckpt_crop_300', type=str, help='checkpoint dir.')
+    p.add_argument('--save_dir', default='plots', type=str, help='evaluation plot directory')
 
 
     opt = p.parse_args()
@@ -91,11 +91,12 @@ def parse_option(print_option=True):
     
         print('   Data root : %s' % (opt.data_root))
         print()
+        print('   Data Crop size : Crop to (%d,%d)' % (opt.crop_size,opt.crop_size))
         print('   Data input size : Resized to (%d,%d)' % (opt.input_size,opt.input_size))
         print()
         print('   Base #Filters of Network : %d' % (opt.base_n_filter))
         print()
-        print('   Optimizer : %s' % (opt.optim))
+        print('   Optimizer : %s (weight decay %f)' % (opt.optim, opt.wd))
         print('   Loss function : %s' % opt.loss)
         print('   Batch size : %d' % opt.batch_size)
         print('   Max epoch : %d' % opt.max_epoch)

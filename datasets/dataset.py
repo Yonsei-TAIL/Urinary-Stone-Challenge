@@ -35,8 +35,11 @@ class UrinaryStoneDataset(Dataset):
         img = image_windowing(img, self.opt.w_min, self.opt.w_max)
 
         # Center Crop and MINMAX to [0, 255] and Resize
-        #img = center_crop(img, self.opt.crop_size)
+        img = center_crop(img, self.opt.crop_size)
+        mask = center_crop(mask, self.opt.crop_size)
+        
         img = image_minmax(img)
+        
         img = cv2.resize(img, (self.opt.input_size, self.opt.input_size))
         mask = cv2.resize(mask, (self.opt.input_size, self.opt.input_size))
 
