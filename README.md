@@ -17,7 +17,7 @@ Structure:
 - ```utils/```: image processing code, miscellaneous helper functions, and training/evaluation core code
 - ```train.py/```: code for model training
 - ```test.py/```: code for model evaluation
-- ```main.ipynb/``` : our main source code on jupyter notebook ([Notebookhttps://github.com/Yonsei-TAIL/Urinary-Stone-Challenge/blob/main/main.ipynb))
+- ```main.ipynb/``` : our main source code on jupyter notebook ([Notebook](https://github.com/Yonsei-TAIL/Urinary-Stone-Challenge/blob/main/main.ipynb))
 
 #### Dataset
 The dataset architecture must be as below.
