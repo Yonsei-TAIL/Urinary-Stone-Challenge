@@ -1,10 +1,9 @@
 # Urinary Stone Challenge
-
-## Getting Started
 This repository is the 3rd place solution for the urinary stone segmentation of [2020 AI Smart Challenge](http://wonmcrc.org/).
 
-NOTE : It is unable to run this code on your local machine because the challenge was private. You have to customize the [dataset.py](https://github.com/Yonsei-TAIL/Urinary-Stone-Challenge/blob/main/datasets/dataset.py) to run training code with your own dataset and specify the directory on [data_root argument](https://github.com/Yonsei-TAIL/Urinary-Stone-Challenge/blob/main/datasets/dataset.py).
+**NOTE** : It is unable to run this code on your local machine because the challenge was private. You have to customize the [dataset.py](https://github.com/Yonsei-TAIL/Urinary-Stone-Challenge/blob/main/datasets/dataset.py) to run training code with your own dataset and specify the directory on [data_root argument](https://github.com/Yonsei-TAIL/Urinary-Stone-Challenge/blob/main/datasets/dataset.py).
 
+## Getting Started
 Requirements:
 - Python 3 (code has been tested on Python 3.7)
 - PyTorch (code tested with 1.6.0)
